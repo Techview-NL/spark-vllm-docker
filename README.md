@@ -313,12 +313,34 @@ for additional launcher options.
 
 ### 2026-10-05
 
+#### Deepseek V4.1 Flash recipes for 3x and 4x Sparks
+
+Added new recipes for Deepseek V4.1 Flash for 3x and 4x Sparks (with or without switch). Both use tensor parallelism and give you similar performance (~73 t/s speedbench coding).
+
+To run on 3-node mesh/ring:
+
+```bash
+./run-recipe.sh recipes/3x-spark-cluster/deepseek-v4.1-flash.yaml --setup
+```
+
+To run on a 4-node cluster (switch or ring):
+
+```bash
+./run-recipe.sh recipes/4x-spark-cluster/deepseek-v4.1-flash.yaml --setup
+```
+
+#### Switchless ring support
+
 Spark-vllm-docker now supports switchless ring configurations with the number of nodes >3. 
 Tested with 4x ring, but should work with larger rings as well (will test when get access to one).
 
 Autodiscovery and container/model distribution handle ring setups as long as it's networking 
 is properly configured and passwordless SSH is set up as outlined in the 
 [Networking Guide](docs/NETWORKING.md#example-four-node-ring).
+
+**No change in the recipes is needed!**
+
+Ring setup has one limitation compared to switch-based setups - you can either use full ring capacity, solo, or 2 nodes. Nodes participating in inference need to either be directly connected or form a complete ring. Open-ended configurations will not work (e.g. 3 node inference in 4 node ring).
 
 ### 2026-10-02
 
