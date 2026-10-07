@@ -2511,6 +2511,11 @@ the existing CUDA-based accounting under WSL. InstantTensor's budget fraction
 (`INSTANTTENSOR_MAX_FREE_MEM_USAGE`, default `0.5`), minimum across distributed
 ranks, and buffer-size checks still apply.
 
+InstantTensor 0.2.1 includes native Linux UMA accounting, but does not exclude
+WSL from that path. The patch remains necessary for the WSL policy and supports
+both 0.2.0 and 0.2.1, preserving 0.2.1's budget validation and error handling
+across distributed ranks.
+
 These runners also default to `INSTANTTENSOR_IO_DEPTH=16` to reduce GPU and
 pinned host staging-buffer usage. Override it through a recipe's `env` settings
 or `-e INSTANTTENSOR_IO_DEPTH=<depth>` with `launch-cluster.sh` or `docker run`.
