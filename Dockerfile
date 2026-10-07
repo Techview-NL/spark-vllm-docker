@@ -228,6 +228,12 @@ RUN set -eux; \
 
 
 
+# Temporary workaround for FlashInfer's B12X loader include-order regression
+# (601cb127). Apply after requested PRs, and skip refs where it is already fixed.
+# Remove once supported refs include the upstream fix.
+COPY docker/patch_flashinfer_b12x_loader_include_order.py /tmp/patch_flashinfer_b12x_loader_include_order.py
+RUN "$FLASHINFER_BUILD_PYTHON" /tmp/patch_flashinfer_b12x_loader_include_order.py .
+
 # FlashInfer #5240 reuses checksum-verified cubins from the cache mount below.
 COPY docker/build_flashinfer_jit_providers.sh /tmp/build_flashinfer_jit_providers.sh
 RUN --mount=type=cache,id=uv-cache,target=/root/.cache/uv \
